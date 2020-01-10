@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -32,22 +33,29 @@ public class HoatDongController extends HttpServlet {
     HoatDongBo bo = new HoatDongBo();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-//			String maLoai = request.getParameter("txtMaLoai");
-//			String tenLoai = request.getParameter("txtTenLoai");
-//			if (request.getParameter("btnThem")!=null) {
-//				int n = bo.them(maLoai, tenLoai);
-//				if (n==0) request.setAttribute("kqThem", 0);
-//			}
-//			if (request.getParameter("btnSua")!=null) {
-//				bo.sua(maLoai, tenLoai);
-//			}
-//			if (request.getParameter("maLoaiChon")!=null) {
-//				request.setAttribute("loaiChon", bo.getLoaiByMa(request.getParameter("maLoaiChon")));
-//			}
-//			if (request.getParameter("maLoaiXoa")!=null) {
-//				int n = bo.xoa(request.getParameter("maLoaiXoa"));
-//				if (n==0) request.setAttribute("kqXoa", 0);
-//			}
+			String tenHD = request.getParameter("txtTenHD");
+			String moTaHD = request.getParameter("txtMoTaHD");
+			String ngayGioBD = request.getParameter("txtNgayGioBD");
+			String ngayGioKT = request.getParameter("txtNgayGioKT");
+			String slToiThieuYC = request.getParameter("txtSLToiThieuYC");
+			String slToiDaYC = request.getParameter("txtSLToiDaYC");
+			String thoiHanDK = request.getParameter("txtThoiHanDK");
+			String maTV = request.getParameter("txtMaTV");
+			if (request.getParameter("btnThem")!=null) {
+				bo.them(tenHD, moTaHD, ngayGioBD.replace('T', ' ')+":00", ngayGioKT.replace('T', ' ')+":00", Integer.parseInt(slToiThieuYC), Integer.parseInt(slToiDaYC), thoiHanDK.replace('T', ' ')+":00", Integer.parseInt(maTV));
+			}
+			if (request.getParameter("btnSua")!=null) {
+			String maHD = request.getParameter("txtMaHD");
+			String trangThai = request.getParameter("cbbTrangThai");
+			String lyDoHuyHD = request.getParameter("txtLyDoHuyHD");
+				bo.sua(Integer.parseInt(maHD), tenHD, moTaHD, ngayGioBD.replace('T', ' '), ngayGioKT.replace('T', ' '), Integer.parseInt(slToiThieuYC), Integer.parseInt(slToiDaYC), thoiHanDK.replace('T', ' '), trangThai, Integer.parseInt(maTV), lyDoHuyHD);
+			}
+			if (request.getParameter("maChon")!=null) {
+				request.setAttribute("hd", bo.getHDByMa(Integer.parseInt(request.getParameter("maChon"))));
+			}
+			if (request.getParameter("maXoa")!=null) {
+				bo.xoa(Integer.parseInt(request.getParameter("maXoa")),request.getParameter("tt"));
+			}
 			request.setAttribute("dsLoai", bo.getHD());
 			RequestDispatcher rd = request.getRequestDispatcher("HoatDong.jsp");
 			rd.forward(request, response);

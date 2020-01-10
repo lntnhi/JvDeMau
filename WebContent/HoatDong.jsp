@@ -1,3 +1,5 @@
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="bean.HoatDongBean"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -12,26 +14,28 @@
 <body>
 <%HoatDongBean hd = (HoatDongBean)request.getAttribute("hd"); %>
 <div class="container">
-<form action="AdminLoaiController">
+<form action="HoatDongController">
+	<%if (hd!=null) { %>
 	<label>Ma HD</label>
-	<input type="text" name="txtMaHD" value="<%if (hd!=null) out.print(hd.getMaHD()); %>" class="form-control"> <br>
+	<input type="text" name="txtMaHD" value="<%out.print(hd.getMaHD()); %>" class="form-control" required> <br>
+	<%} %>
 	<label>Ten HD</label>
-	<input type="text" name="txtTenHD" value="<%if (hd!=null) out.print(hd.getTenHD()); %>" class="form-control"> <br>
+	<input type="text" name="txtTenHD" value="<%if (hd!=null) out.print(hd.getTenHD()); %>" class="form-control" required> <br>
 	<label>Mo ta HD</label>
-	<input type="text" name="txtMoTaHD" value="<%if (hd!=null) out.print(hd.getMoTaHD()); %>" class="form-control"> <br>
+	<input type="text" name="txtMoTaHD" value="<%if (hd!=null) out.print(hd.getMoTaHD()); %>" class="form-control" required> <br>
 	<label>Ngay gio bat dau</label>
-	<input type="datetime-local" name="txtNgayGioBD" value="<%if (hd!=null) out.print(hd.getNgayGioBD()); %>" class="form-control"> <br>
+	<input type="datetime-local" name="txtNgayGioBD" value="<% if (hd!=null)  out.print(hd.getNgayGioBD().replace(' ', 'T')); %>" class="form-control" required> <br>
 	<label>Ngay gio ket thuc</label>
-	<input type="datetime-local" name="txtNgayGioKT" value="<%if (hd!=null) out.print(hd.getNgayGioKT()); %>" class="form-control"> <br>
+	<input type="datetime-local" name="txtNgayGioKT" value="<% if (hd!=null) out.print(hd.getNgayGioKT().replace(' ', 'T'));%>" class="form-control" required> <br>
 	<label>So luong toi thieu yeu cau</label>
-	<input type="number" name="txtSLToiThieuYC" value="<%if (hd!=null) out.print(hd.getSlToiThieuYC()); %>" class="form-control"> <br>
+	<input type="number" name="txtSLToiThieuYC" value="<%if (hd!=null) out.print(hd.getSlToiThieuYC()); %>" class="form-control" required> <br>
 	<label>So luong toi da yeu cau</label>
-	<input type="number" name="txtSLToiDaYC" value="<%if (hd!=null) out.print(hd.getSlToiDaYC()); %>" class="form-control"> <br>
+	<input type="number" name="txtSLToiDaYC" value="<%if (hd!=null) out.print(hd.getSlToiDaYC()); %>" class="form-control" required> <br>
 	<label>Thoi han dang ky</label>
-	<input type="datetime-local" name="txtThoiHanDK" value="<%if (hd!=null) out.print(hd.getThoiHanDK()); %>" class="form-control"> <br>
+	<input type="datetime-local" name="txtThoiHanDK" value="<% if (hd!=null) out.print(hd.getThoiHanDK().replace(' ', 'T'));%>" class="form-control" required> <br>
 	<%if (hd!=null) { %>
 	<label>Trang thai</label>
-	<select name="cbbTrangThai" class="form-control">
+	<select name="cbbTrangThai" class="form-control" required>
 	    <option  <% if (hd.getTrangThai().equals("Dang moi dang ky")) out.print("selected"); %>>
 	    	Dang moi dang ky
 	    </option>
@@ -45,14 +49,12 @@
 	    	Da ket thuc
 	    </option>
 	</select>
-	
-	<input type="text" name="txtTrangThai" value="<% out.print(hd.getMaHD()); %>" class="form-control"> <br>
 	<%} %>
 	<label>Ma TV</label>
-	<input type="text" name="txtMaTV" value="<%if (hd!=null) out.print(hd.getMaTV()); %>" class="form-control"> <br>
+	<input type="text" name="txtMaTV" value="<%if (hd!=null) out.print(hd.getMaTV()); %>" class="form-control" required> <br>
 	<%if (hd!=null) { %>
 	<label>Ly do huy HD</label>
-	<input type="text" name="txtLyDoHuyHD" value="<% out.print(hd.getLyDoHuyHD()); %>" class="form-control"> <br>
+	<input type="text" name="txtLyDoHuyHD" value="<% out.print(hd.getLyDoHuyHD()); %>" class="form-control" required> <br>
 	<%} %>
 	<input type="submit" name="btnThem" value="Them" class="btn btn-primary">
 	<input type="submit" name="btnSua" value="Sua" class="btn btn-primary"> <br>
@@ -90,10 +92,10 @@
 				<td><%=loai.getMaTV() %></td>
 				<td class="d-flex">
 		         <a href="HoatDongController?maChon=<%=loai.getMaHD()%>" class="btn btn-primary mr-2">Chon</a>
-		         <a href="HoatDongController?maXoa=<%=loai.getMaHD()%>" class="btn btn-danger">Xoa</a>
+		         <a href="HoatDongController?maXoa=<%=loai.getMaHD()%>&tt=<%=loai.getTrangThai() %>" class="btn btn-danger">Xoa</a>
 		       </td>
 		     </tr>	
-		<%} %>   
+		<%}%>   
     </tbody>
   </table>
 </div>
